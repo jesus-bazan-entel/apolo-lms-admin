@@ -47,6 +47,8 @@ Antes de compilar, necesitas conectar la aplicación con tu proyecto de Firebase
 2. Crea un nuevo proyecto (ej. `apolo-lms-prod`).
 3. Desactiva Google Analytics si no lo necesitas (opcional).
 
+![Firebase Console Project](docs/images/firebase_console.png)
+
 ### Paso 3.2: Habilitar Servicios
 En el panel izquierdo de la consola de Firebase, configura lo siguiente:
 
@@ -123,6 +125,8 @@ flutter build web --release
 
 Si el comando termina con éxito, verás los archivos generados en la carpeta `build/web`.
 
+![Terminal Build Success](docs/images/terminal_deploy.png)
+
 ### Paso 5.3: Desplegar en Firebase
 Una vez compilado, sube los archivos a los servidores de Firebase:
 
@@ -159,3 +163,16 @@ git add .
 git commit -m "Descripción de los cambios"
 git push
 ```
+
+## 7. Referencia Visual de la Aplicación
+
+A continuación se muestran las pantallas principales del sistema para referencia:
+
+### Dashboard Principal
+![Admin Dashboard](docs/images/dashboard.png)
+
+### Gestión de Usuarios (Niveles y Secciones)
+![Users Table](docs/images/users_table.png)
+
+### Editor de Cursos con AI
+![Course Editor](docs/images/course_editor.png)
