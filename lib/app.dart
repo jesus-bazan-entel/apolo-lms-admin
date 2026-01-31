@@ -2,28 +2,25 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_admin/pages/splash.dart';
-import 'configs/app_config.dart';
+import 'package:lms_admin/providers/theme_provider.dart';
+import 'configs/app_theme.dart';
+import 'configs/app_strings.dart';
 
 class MyApp extends ConsumerWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final themeMode = ref.watch(themeModeProvider);
+
     return MaterialApp(
       home: const SplashScreen(),
-      title: 'Admin Panel',
+      title: AppStrings.appName,
       debugShowCheckedModeBanner: false,
       scrollBehavior: TouchAndMouseScrollBehavior(),
-      theme: ThemeData(
-        useMaterial3: false,
-        fontFamily: 'Poppins',
-        primaryColor: AppConfig.themeColor,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        textTheme: TextTheme(
-          titleMedium: TextStyle(fontWeight: FontWeight.w500),
-          bodyMedium: TextStyle(fontWeight: FontWeight.w500),
-        ),
-      ),
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: themeMode,
     );
   }
 }

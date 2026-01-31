@@ -148,7 +148,7 @@ mixin SectionsMixin {
                   verticalPaddingPercentage: 0.02,
                   widget: LessonForm(
                     courseDocId: courseDocId,
-                    sectionDocId: section.id,
+                    sectionId: section.id,
                     lesson: null,
                   ),
                 ),

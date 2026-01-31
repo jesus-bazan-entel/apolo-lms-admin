@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lms_admin/components/app_logo.dart';
-import 'package:lms_admin/configs/assets_config.dart';
+import 'package:lms_admin/components/idecap_logo.dart';
+import 'package:lms_admin/constants/idecap_colors.dart';
 import 'package:lms_admin/models/app_settings_model.dart';
 import 'package:lms_admin/pages/login.dart';
 import 'package:lms_admin/pages/verify.dart';
@@ -50,22 +50,30 @@ class _InitialScreen1State extends ConsumerState<SplashScreen> {
     if (role == UserRoles.admin || role == UserRoles.author) {
       ref.read(userRoleProvider.notifier).update((state) => role);
 
-      final settings = await ref.read(appSettingsProvider.future);
-      final LicenseType license = settings?.license ?? LicenseType.none;
-      final bool isVerified = license != LicenseType.none;
-
-      if (isVerified) {
+      // ADMIN and AUTHOR skip license verification
+      if (role == UserRoles.admin) {
         await ref.read(userDataProvider.notifier).getData();
         if (!mounted) return;
         NextScreen.replaceAnimation(context, const Home());
       } else {
-        if (!mounted) return;
-        NextScreen.replaceAnimation(context, const VerifyInfo());
+        // AUTHOR needs license verification
+        final settings = await ref.read(appSettingsProvider.future);
+        final LicenseType license = settings?.license ?? LicenseType.none;
+        final bool isVerified = license != LicenseType.none;
+
+        if (isVerified) {
+          await ref.read(userDataProvider.notifier).getData();
+          if (!mounted) return;
+          NextScreen.replaceAnimation(context, const Home());
+        } else {
+          if (!mounted) return;
+          NextScreen.replaceAnimation(context, const VerifyInfo());
+        }
       }
     } else {
       // Not ADMIN or AUTHOR
       await AuthService().adminLogout().then((value) {
-        openFailureToast(context, 'Access Denied');
+        openFailureToast(context, 'Acceso Denegado');
         NextScreen.replaceAnimation(context, const Login());
       });
     }
@@ -73,8 +81,15 @@ class _InitialScreen1State extends ConsumerState<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: AppLogo(imageString: AssetsConfig.logo, width: 300)),
+    return Scaffold(
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: IdecapColors.welcomeGradient,
+        ),
+        child: const Center(
+          child: IdecapLogo(size: 120),
+        ),
+      ),
     );
   }
 }

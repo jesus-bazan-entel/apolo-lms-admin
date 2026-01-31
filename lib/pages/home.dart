@@ -3,7 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_admin/configs/app_config.dart';
 import 'package:lms_admin/mixins/appbar_mixin.dart';
 import 'package:lms_admin/providers/auth_state_provider.dart';
-import 'package:lms_admin/tabs/admin_tabs/license_tab.dart';
+import 'package:lms_admin/tabs/admin_tabs/students/students_tab.dart';
+import 'package:lms_admin/tabs/admin_tabs/tutors/tutors_tab.dart';
 import 'package:lms_admin/utils/reponsive.dart';
 import 'package:lms_admin/components/side_menu.dart';
 import 'package:lms_admin/mixins/user_mixin.dart';
@@ -13,17 +14,13 @@ import 'package:lms_admin/tabs/author_tabs/author_dashboard.dart';
 import '../models/user_model.dart';
 import '../providers/categories_provider.dart';
 import '../providers/user_data_provider.dart';
-import '../tabs/admin_tabs/ads_settings.dart';
 import '../tabs/admin_tabs/app_settings/app_settings_view.dart';
 import '../tabs/admin_tabs/categories/categories.dart';
 import '../tabs/admin_tabs/courses/courses.dart';
 import '../tabs/admin_tabs/dashboard/dashboard.dart';
 import '../tabs/admin_tabs/featured_courses.dart';
-import '../tabs/admin_tabs/notifications.dart';
-import '../tabs/admin_tabs/purchases/purchases.dart';
 import '../tabs/admin_tabs/reviews/reviews.dart';
 import '../tabs/admin_tabs/tags.dart';
-import '../tabs/admin_tabs/users/users.dart';
 
 final pageControllerProvider = StateProvider<PageController>((ref) => PageController(initialPage: 0, keepPage: true));
 
@@ -37,17 +34,14 @@ class Home extends ConsumerStatefulWidget {
 class _HomeState extends ConsumerState<Home> {
   final List<Widget> _tabList = const [
     Dashboard(),
+    StudentsTab(),
+    TutorsTab(),
     Courses(),
     FeaturedCourses(),
     Categories(),
     Tags(),
     Reviews(),
-    Users(),
-    Notifications(),
-    Purchases(),
-    AdsSettings(),
     AppSettings(),
-    LicenseTab(),
   ];
 
   final List<Widget> _authorTabList = const [

@@ -53,12 +53,13 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyArkf2dfe1rq***********',
-    appId: '1:1035741224********',
-    messagingSenderId: '103574********',
-    projectId: 'lms-a********',
-    authDomain: 'lms-app-b0********',
-    storageBucket: 'lms-ap********',
-    measurementId: 'G-J78********',
+    apiKey: 'AIzaSyA9YRytqqeoJrf8uj5B8TzIsGuDK9dHK90',
+    appId: '1:549221431576:web:da139ed561dcfe11c3466d',
+    messagingSenderId: '549221431576',
+    projectId: 'apololms',
+    authDomain: 'apololms.firebaseapp.com',
+    storageBucket: 'apololms.firebasestorage.app',
+    measurementId: 'G-0FSZBZMMHC',
   );
+
 }

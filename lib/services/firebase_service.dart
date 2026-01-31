@@ -11,6 +11,8 @@ import 'package:lms_admin/models/notification_model.dart';
 import 'package:lms_admin/models/app_settings_model.dart';
 import 'package:lms_admin/models/category.dart';
 import 'package:lms_admin/models/lesson.dart';
+import 'package:lms_admin/models/level.dart';
+import 'package:lms_admin/models/module.dart';
 import 'package:lms_admin/models/purchase_history.dart';
 import 'package:lms_admin/models/review.dart';
 import 'package:lms_admin/models/tag.dart';
@@ -308,8 +310,9 @@ class FirebaseService {
   }
 
   Future<int> getCourseCount() async {
+    // Contar todos los cursos (sin filtrar por status)
     final CollectionReference collectionReference = firestore.collection('courses');
-    AggregateQuerySnapshot snap = await collectionReference.where('status', isEqualTo: courseStatus.keys.elementAt(2)).count().get();
+    AggregateQuerySnapshot snap = await collectionReference.count().get();
     int count = snap.count ?? 0;
     return count;
   }
@@ -319,6 +322,45 @@ class FirebaseService {
     AggregateQuerySnapshot snap = await collectionReference.where('role', arrayContains: 'author').count().get();
     int count = snap.count ?? 0;
     return count;
+  }
+
+  Future<int> getStudentsCount() async {
+    // Contar todos los usuarios menos los que son admin
+    final CollectionReference collectionReference = firestore.collection('users');
+    final QuerySnapshot allUsers = await collectionReference.get();
+    int studentCount = 0;
+    for (var doc in allUsers.docs) {
+      final data = doc.data() as Map<String, dynamic>;
+      // Manejar role como String o List
+      if (!_isAdmin(data['role'])) {
+        studentCount++;
+      }
+    }
+    return studentCount;
+  }
+
+  Future<int> getActiveStudentsCount() async {
+    // Contar usuarios activos que no son admin
+    final CollectionReference collectionReference = firestore.collection('users');
+    final QuerySnapshot allUsers = await collectionReference.get();
+    int activeCount = 0;
+    for (var doc in allUsers.docs) {
+      final data = doc.data() as Map<String, dynamic>;
+      final disabled = data['disabled'] as bool? ?? false;
+      // Si no tiene rol admin y no está deshabilitado
+      if (!_isAdmin(data['role']) && !disabled) {
+        activeCount++;
+      }
+    }
+    return activeCount;
+  }
+
+  // Helper para verificar si es admin (maneja String o List)
+  bool _isAdmin(dynamic role) {
+    if (role == null) return false;
+    if (role is String) return role == 'admin';
+    if (role is List) return role.contains('admin');
+    return false;
   }
 
   Future<int> getSubscribedUsersCount() async {
@@ -363,9 +405,45 @@ class FirebaseService {
 
   Future<List<ChartModel>> getUserStats(int days) async {
     List<ChartModel> stats = [];
-    DateTime lastWeek = DateTime.now().subtract(Duration(days: days));
-    final QuerySnapshot snapshot = await firestore.collection('user_stats').where('timestamp', isGreaterThanOrEqualTo: lastWeek).get();
-    stats = snapshot.docs.map((e) => ChartModel.fromFirestore(e)).toList();
+    DateTime startDate = DateTime.now().subtract(Duration(days: days));
+    
+    // Primero intentar obtener de user_stats
+    final QuerySnapshot snapshot = await firestore.collection('user_stats').where('timestamp', isGreaterThanOrEqualTo: startDate).get();
+    
+    if (snapshot.docs.isNotEmpty) {
+      stats = snapshot.docs.map((e) => ChartModel.fromFirestore(e)).toList();
+    } else {
+      // Si no hay datos en user_stats, generar desde created_at de usuarios
+      final QuerySnapshot usersSnapshot = await firestore.collection('users')
+          .where('created_at', isGreaterThanOrEqualTo: Timestamp.fromDate(startDate))
+          .get();
+      
+      // Agrupar por día
+      Map<String, int> countByDay = {};
+      for (var doc in usersSnapshot.docs) {
+        final data = doc.data() as Map<String, dynamic>;
+        // Solo contar si no es admin (usando helper que maneja String o List)
+        if (!_isAdmin(data['role'])) {
+          final createdAt = data['created_at'] as Timestamp?;
+          if (createdAt != null) {
+            final date = createdAt.toDate();
+            final dayKey = '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
+            countByDay[dayKey] = (countByDay[dayKey] ?? 0) + 1;
+          }
+        }
+      }
+      
+      // Convertir a ChartModel
+      countByDay.forEach((key, count) {
+        final parts = key.split('-');
+        final date = DateTime(int.parse(parts[0]), int.parse(parts[1]), int.parse(parts[2]));
+        stats.add(ChartModel(timestamp: date, count: count));
+      });
+      
+      // Ordenar por fecha
+      stats.sort((a, b) => a.timestamp.compareTo(b.timestamp));
+    }
+    
     return stats;
   }
 
@@ -418,5 +496,87 @@ class FirebaseService {
     final Course course = Course.fromFirestore(snapshot);
     final int count = course.lessonsCount;
     return count;
+  }
+
+  // ============= LEVELS =============
+  Future<List<Level>> getLevels(String courseId) async {
+    final QuerySnapshot snap = await firestore
+        .collection('courses')
+        .doc(courseId)
+        .collection('levels')
+        .orderBy('order')
+        .get();
+    
+    return snap.docs.map((doc) => Level.fromFirestore(doc)).toList();
+  }
+
+  Future saveLevel(String courseId, Level level) async {
+    await firestore
+        .collection('courses')
+        .doc(courseId)
+        .collection('levels')
+        .doc(level.id)
+        .set(Level.getMap(level));
+  }
+
+  Future deleteLevel(String courseId, String levelId) async {
+    await firestore
+        .collection('courses')
+        .doc(courseId)
+        .collection('levels')
+        .doc(levelId)
+        .delete();
+  }
+
+  // ============= MODULES =============
+  Future<List<Module>> getModules(String levelId, {String? courseId}) async {
+    List<Module> data = [];
+    
+    if (courseId != null) {
+      // Búsqueda específica por ruta
+      await firestore
+          .collection('courses')
+          .doc(courseId)
+          .collection('levels')
+          .doc(levelId)
+          .collection('modules')
+          .orderBy('order')
+          .get()
+          .then((QuerySnapshot snapshot) {
+        data = snapshot.docs.map((e) => Module.fromFirestore(e)).toList();
+      });
+    } else {
+      // Búsqueda por collection group (backward compatibility)
+      final QuerySnapshot snap = await firestore
+          .collectionGroup('modules')
+          .where('level_id', isEqualTo: levelId)
+          .orderBy('order')
+          .get();
+      data = snap.docs.map((doc) => Module.fromFirestore(doc)).toList();
+    }
+    
+    return data;
+  }
+
+  Future saveModule(String courseId, String levelId, Module module) async {
+    await firestore
+        .collection('courses')
+        .doc(courseId)
+        .collection('levels')
+        .doc(levelId)
+        .collection('modules')
+        .doc(module.id)
+        .set(Module.getMap(module));
+  }
+
+  Future deleteModule(String courseId, String levelId, String moduleId) async {
+    await firestore
+        .collection('courses')
+        .doc(courseId)
+        .collection('levels')
+        .doc(levelId)
+        .collection('modules')
+        .doc(moduleId)
+        .delete();
   }
 }

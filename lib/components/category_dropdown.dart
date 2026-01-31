@@ -34,7 +34,7 @@ class CategoryDropdown extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          title ?? 'Category *',
+          title ?? 'Categoría *',
           style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.normal),
         ),
         const SizedBox(
@@ -49,12 +49,12 @@ class CategoryDropdown extends ConsumerWidget {
                 child: DropdownButtonFormField(
                   decoration: const InputDecoration(border: InputBorder.none),
                   validator: (value) {
-                    if (value == null || value.isEmpty) return 'Category is required';
+                    if (value == null || value.isEmpty) return 'La categoría es requerida';
                     return null;
                   },
                   onChanged: (dynamic value) => onChanged(value),
                   value: selectedId,
-                  hint: const Text('Select Category'),
+                  hint: const Text('Seleccionar Categoría'),
                   items: categories.map((f) {
                     return DropdownMenuItem(
                       value: f.id,

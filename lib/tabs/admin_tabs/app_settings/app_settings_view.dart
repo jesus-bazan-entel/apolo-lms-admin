@@ -90,8 +90,6 @@ class AppSettings extends ConsumerWidget with TextFields {
                   homeCategory2: category2,
                   homeCategory3: category3,
                   social: social,
-                  homeCategory3: category3,
-                  social: social,
                   latestCourses: isLatestCoursesEnabled,
                   geminiApiKey: geminiApiKeyCtlr.text,
                 );

@@ -20,6 +20,12 @@ class Course {
   final String? level;
   final String? language;
 
+  /// IDs de tutores asignados al curso
+  List<String>? tutorIds;
+
+  /// Información de tutores [{id, name, imageUrl}]
+  List<Map<String, dynamic>>? tutors;
+
   Course({
     required this.name,
     required this.id,
@@ -39,6 +45,8 @@ class Course {
     this.isFeatured,
     this.level,
     this.language,
+    this.tutorIds,
+    this.tutors,
   });
 
   factory Course.fromFirestore(DocumentSnapshot snap) {
@@ -59,10 +67,16 @@ class Course {
       studentsCount: d['students'],
       courseMeta: CourseMeta.fromMap(d['meta']),
       isFeatured: d['featured'] ?? false,
-      isFeatured: d['featured'] ?? false,
       lessonsCount: d['lessons_count'] ?? 0,
       level: d['level'],
       language: d['language'],
+      tutorIds: d['tutor_ids'] != null
+          ? List<String>.from(d['tutor_ids'])
+          : null,
+      tutors: d['tutors'] != null
+          ? List<Map<String, dynamic>>.from(
+              (d['tutors'] as List).map((t) => Map<String, dynamic>.from(t)))
+          : null,
     );
   }
 
@@ -84,6 +98,8 @@ class Course {
       'lessons_count': d.lessonsCount,
       'level': d.level,
       'language': d.language,
+      'tutor_ids': d.tutorIds,
+      'tutors': d.tutors,
     };
   }
 }

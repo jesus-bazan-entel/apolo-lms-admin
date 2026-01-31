@@ -164,7 +164,7 @@ class LessonsMixin {
     CustomDialogs.openResponsiveDialog(
       context,
       verticalPaddingPercentage: 0.02,
-      widget: LessonForm(courseDocId: courseId, sectionDocId: sectionId, lesson: lesson),
+      widget: LessonForm(courseDocId: courseId, sectionId: sectionId, lesson: lesson),
     );
   }
 

@@ -1,0 +1,102 @@
+# Nivel: Básico
+## Módulo: Introducción al Portugués
+- Lección 1: El alfabeto portugués
+- Lección 2: Saludos y presentaciones básicas
+- Lección 3: Números del 1 al 20
+- Lección 4: Los días de la semana
+- Lección 5: Los meses del año
+- Lección 6: Colores básicos
+- Lección 7: La familia
+- Lección 8: Partes del cuerpo
+
+## Módulo: Gramática Básica
+- Lección 1: Artículos definidos e indefinidos
+- Lección 2: Pronombres personales
+- Lección 3: Verbos ser y estar (presente)
+- Lección 4: Verbos regulares -AR
+- Lección 5: Verbos regulares -ER
+- Lección 6: Verbos regulares -IR
+- Lección 7: Género de los sustantivos
+- Lección 8: Plural de los sustantivos
+
+## Módulo: Vocabulario Esencial
+- Lección 1: Comidas y bebidas
+- Lección 2: Ropa y accesorios
+- Lección 3: La casa y los muebles
+- Lección 4: Medios de transporte
+- Lección 5: Profesiones y oficios
+- Lección 6: Animales domésticos
+- Lección 7: Frutas y verduras
+- Lección 8: El clima y las estaciones
+
+# Nivel: Intermedio
+## Módulo: Conversación Cotidiana
+- Lección 1: En el restaurante - Pedir comida
+- Lección 2: En la tienda - Hacer compras
+- Lección 3: En el hotel - Reservar habitación
+- Lección 4: En el banco - Operaciones bancarias
+- Lección 5: En el médico - Describir síntomas
+- Lección 6: En la farmacia - Comprar medicamentos
+- Lección 7: En el aeropuerto - Check-in y embarque
+- Lección 8: Pedir direcciones en la ciudad
+
+## Módulo: Gramática Intermedia
+- Lección 1: Pretérito perfecto simple
+- Lección 2: Pretérito imperfecto
+- Lección 3: Futuro simple
+- Lección 4: Condicional simple
+- Lección 5: Pronombres de objeto directo
+- Lección 6: Pronombres de objeto indirecto
+- Lección 7: Verbos reflexivos
+- Lección 8: Comparativos y superlativos
+
+## Módulo: Cultura y Sociedad
+- Lección 1: Fiestas tradicionales de Portugal
+- Lección 2: Fiestas tradicionales de Brasil
+- Lección 3: Gastronomía portuguesa
+- Lección 4: Gastronomía brasileña
+- Lección 5: Música lusófona
+- Lección 6: Literatura en portugués
+- Lección 7: Geografía de Portugal
+- Lección 8: Geografía de Brasil
+
+# Nivel: Avanzado
+## Módulo: Conversación Avanzada
+- Lección 1: Debates y discusiones
+- Lección 2: Presentaciones profesionales
+- Lección 3: Negociaciones comerciales
+- Lección 4: Entrevistas de trabajo
+- Lección 5: Expresar opiniones complejas
+- Lección 6: Argumentación y persuasión
+- Lección 7: Modismos y expresiones idiomáticas
+- Lección 8: Lenguaje formal e informal
+
+## Módulo: Gramática Avanzada
+- Lección 1: Subjuntivo presente
+- Lección 2: Subjuntivo imperfecto
+- Lección 3: Subjuntivo futuro
+- Lección 4: Pluscuamperfecto
+- Lección 5: Voz pasiva
+- Lección 6: Oraciones condicionales
+- Lección 7: Estilo indirecto
+- Lección 8: Conectores y conjunciones
+
+## Módulo: Portugués Profesional
+- Lección 1: Redacción de emails formales
+- Lección 2: Redacción de informes
+- Lección 3: Terminología de negocios
+- Lección 4: Vocabulario técnico
+- Lección 5: Presentaciones corporativas
+- Lección 6: Minutas de reuniones
+- Lección 7: Contratos y acuerdos
+- Lección 8: Correspondencia oficial
+
+## Módulo: Preparación para Exámenes
+- Lección 1: CELPE-Bras - Introducción
+- Lección 2: CELPE-Bras - Comprensión oral
+- Lección 3: CELPE-Bras - Comprensión escrita
+- Lección 4: CELPE-Bras - Producción escrita
+- Lección 5: CELPE-Bras - Producción oral
+- Lección 6: CAPLE - Estructura del examen
+- Lección 7: CAPLE - Estrategias de preparación
+- Lección 8: Examen de práctica completo

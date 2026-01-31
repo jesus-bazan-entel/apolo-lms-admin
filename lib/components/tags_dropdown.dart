@@ -24,7 +24,7 @@ class TagsDropdown extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Tags',
+          'Etiquetas',
           style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.normal),
         ),
         const SizedBox(
@@ -38,7 +38,7 @@ class TagsDropdown extends StatelessWidget {
               decoration:
                   BoxDecoration(color: Colors.grey[200], border: Border.all(color: Colors.grey[200]!), borderRadius: BorderRadius.circular(0)),
               child: DropdownButton(
-                hint: const Text('Select Tags'),
+                hint: const Text('Seleccionar Etiquetas'),
                 underline: Container(),
                 onChanged: (value) => onAdd(value),
                 items: tags.map((f) {

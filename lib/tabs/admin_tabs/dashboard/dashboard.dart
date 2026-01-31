@@ -1,131 +1,167 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:lms_admin/tabs/admin_tabs/dashboard/purchase_bar_chart.dart';
+import 'package:lms_admin/configs/app_config.dart';
+import 'package:lms_admin/configs/design_tokens.dart';
 import 'package:lms_admin/tabs/admin_tabs/dashboard/user_bar_chart.dart';
 import 'package:lms_admin/mixins/course_mixin.dart';
 import 'package:lms_admin/utils/reponsive.dart';
-import 'dashboard_purchases.dart';
+import 'package:lms_admin/components/ui/section_header.dart';
 import 'dashboard_reviews.dart';
 import 'dashboard_tile.dart';
 import 'dashboard_providers.dart';
 import 'dashboard_top_courses.dart';
 import 'dashboard_users.dart';
 
+/// Dashboard principal del sistema LMS
+///
+/// Muestra estadísticas clave, gráficos de usuarios,
+/// cursos populares y reseñas recientes.
 class Dashboard extends ConsumerWidget with CourseMixin {
-  const Dashboard({Key? key}) : super(key: key);
+  const Dashboard({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(30),
+      padding: const EdgeInsets.all(DesignTokens.space2xl),
       physics: const AlwaysScrollableScrollPhysics(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          GridView(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisSpacing: 20,
-              mainAxisSpacing: 20,
-              crossAxisCount: Responsive.getCrossAxisCount(context),
-              childAspectRatio: 2.5,
-            ),
-            children: [
-              DashboardTile(
-                  info: 'Total Users', count: ref.watch(usersCountProvider).value ?? 0, icon: LineIcons.userFriends, bgColor: Colors.orange),
-              DashboardTile(
-                  info: 'Total Enrolled', count: ref.watch(enrolledCountProvider).value ?? 0, icon: LineIcons.userTie, bgColor: Colors.blue),
-              DashboardTile(
-                  info: 'Total Subscribed', count: ref.watch(subscriberCountProvider).value ?? 0, icon: LineIcons.userClock, bgColor: Colors.purple),
-              DashboardTile(
-                  info: 'Total Purchases', count: ref.watch(purchasesCountProvider).value ?? 0, icon: LineIcons.receipt, bgColor: Colors.cyan),
-              DashboardTile(
-                  info: 'Total Authors', count: ref.watch(authorsCountProvider).value ?? 0, icon: LineIcons.userTag, bgColor: Colors.pinkAccent),
-              DashboardTile(info: 'Total Courses', count: ref.watch(coursesCountProvider).value ?? 0, icon: LineIcons.book, bgColor: Colors.green),
-              DashboardTile(
-                  info: 'Total Notifications',
-                  count: ref.watch(notificationsCountProvider).value ?? 0,
-                  icon: LineIcons.bell,
-                  bgColor: Colors.deepPurple),
-              DashboardTile(info: 'Total Reviews', count: ref.watch(reviewsCountProvider).value ?? 0, icon: LineIcons.starAlt, bgColor: Colors.teal),
-            ],
+          // Page Header (datos se actualizan automáticamente en tiempo real)
+          const PageHeader(
+            title: 'Dashboard',
+            subtitle: 'Resumen general del sistema',
           ),
-          const SizedBox(height: 20),
-          _buildOtherTabs(context),
+
+          DesignTokens.vSpaceLg,
+
+          // Stats Grid
+          _buildStatsGrid(context, ref, theme),
+
+          DesignTokens.vSpace2xl,
+
+          // Charts and Data Sections
+          _buildDataSections(context),
         ],
       ),
     );
   }
 
-  Widget _buildOtherTabs(BuildContext context) {
+  Widget _buildStatsGrid(BuildContext context, WidgetRef ref, ThemeData theme) {
+    return GridView(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisSpacing: DesignTokens.spaceLg,
+        mainAxisSpacing: DesignTokens.spaceLg,
+        crossAxisCount: Responsive.getCrossAxisCount(context),
+        childAspectRatio: 2.5,
+      ),
+      children: [
+        DashboardTile(
+          info: 'Total Estudiantes',
+          count: ref.watch(usersCountProvider).value ?? 0,
+          icon: LineIcons.userGraduate,
+          gradient: AppConfig.primaryGradient,
+          trend: TrendDirection.up,
+          trendValue: '+12%',
+        ),
+        DashboardTile(
+          info: 'Estudiantes Activos',
+          count: ref.watch(activeStudentsCountProvider).value ?? 0,
+          icon: LineIcons.userCheck,
+          bgColor: AppConfig.successColor,
+          trend: TrendDirection.up,
+          trendValue: '+8%',
+        ),
+        DashboardTile(
+          info: 'Total Reseñas',
+          count: ref.watch(reviewsCountProvider).value ?? 0,
+          icon: LineIcons.starAlt,
+          bgColor: AppConfig.primaryPurple,
+          trend: TrendDirection.up,
+          trendValue: '+15%',
+        ),
+        DashboardTile(
+          info: 'Total Cursos',
+          count: ref.watch(coursesCountProvider).value ?? 0,
+          icon: LineIcons.book,
+          gradient: AppConfig.accentGradient,
+          trend: TrendDirection.up,
+          trendValue: '+5%',
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDataSections(BuildContext context) {
     if (Responsive.isDesktopLarge(context)) {
-      return const Row(
+      return Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Flexible(
-              flex: 1,
-              child: Column(
-                children: [UserBarChart(), SizedBox(height: 20), DashboardReviews()],
-              )),
-          SizedBox(width: 20),
+            flex: 1,
+            child: Column(
+              children: [
+                const UserBarChart(),
+                DesignTokens.vSpaceLg,
+                const DashboardReviews(),
+              ],
+            ),
+          ),
+          DesignTokens.hSpaceLg,
           Flexible(
-              flex: 1,
-              child: Column(
-                children: [PurchaseBarChart(), SizedBox(height: 20), DashboardUsers()],
-              )),
-          SizedBox(width: 20),
-          Flexible(
-              flex: 1,
-              child: Column(
-                children: [DashboardPurchases(), SizedBox(height: 20), DashboardTopCourses()],
-              )),
+            flex: 1,
+            child: Column(
+              children: [
+                const DashboardUsers(),
+                DesignTokens.vSpaceLg,
+                const DashboardTopCourses(),
+              ],
+            ),
+          ),
         ],
       );
     } else if (Responsive.isDesktop(context)) {
-      return const Row(
+      return Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Flexible(
-              flex: 1,
-              child: Column(
-                children: [
-                  UserBarChart(),
-                  SizedBox(height: 20),
-                  DashboardReviews(),
-                  SizedBox(height: 20),
-                  DashboardPurchases(),
-                ],
-              )),
-          SizedBox(width: 20),
+            flex: 1,
+            child: Column(
+              children: [
+                const UserBarChart(),
+                DesignTokens.vSpaceLg,
+                const DashboardReviews(),
+              ],
+            ),
+          ),
+          DesignTokens.hSpaceLg,
           Flexible(
-              flex: 1,
-              child: Column(
-                children: [
-                  PurchaseBarChart(),
-                  SizedBox(height: 20),
-                  DashboardUsers(),
-                  SizedBox(height: 20),
-                  DashboardTopCourses(),
-                ],
-              )),
+            flex: 1,
+            child: Column(
+              children: [
+                const DashboardUsers(),
+                DesignTokens.vSpaceLg,
+                const DashboardTopCourses(),
+              ],
+            ),
+          ),
         ],
       );
     } else {
-      return const Column(
+      return Column(
         children: [
-          UserBarChart(),
-          SizedBox(height: 20),
-          PurchaseBarChart(),
-          SizedBox(height: 20),
-          DashboardReviews(),
-          SizedBox(height: 20),
-          DashboardPurchases(),
-          SizedBox(height: 20),
-          DashboardUsers(),
-          SizedBox(height: 20),
-          DashboardTopCourses(),
+          const UserBarChart(),
+          DesignTokens.vSpaceLg,
+          const DashboardReviews(),
+          DesignTokens.vSpaceLg,
+          const DashboardUsers(),
+          DesignTokens.vSpaceLg,
+          const DashboardTopCourses(),
         ],
       );
     }

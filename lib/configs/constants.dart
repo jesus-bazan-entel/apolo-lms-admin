@@ -6,82 +6,133 @@ import 'package:line_icons/line_icons.dart';
 const String notificationTopicForAll = 'all';
 
 const Map<int, List<dynamic>> menuList = {
-  0: ['Dashboard', LineIcons.pieChart],
-  1: ['Courses', LineIcons.book],
-  2: ['Featured', LineIcons.bomb],
-  3: ['Categories', CupertinoIcons.grid],
-  4: ['Tags', LineIcons.tags],
-  5: ['Reviews', LineIcons.starAlt],
-  6: ['Users', LineIcons.userFriends],
-  7: ['Notifications', LineIcons.bell],
-  8: ['Purchases', LineIcons.receipt],
-  9: ['Ads', LineIcons.dollarSign],
-  10: ['Settings', CupertinoIcons.settings],
-  11: ['License', LineIcons.key],
+  0: ['Panel de Control', LineIcons.pieChart],
+  1: ['Estudiantes', LineIcons.userGraduate],
+  2: ['Tutores', LineIcons.chalkboardTeacher],
+  3: ['Cursos', LineIcons.book],
+  4: ['Destacados', LineIcons.bomb],
+  5: ['Categorías', CupertinoIcons.grid],
+  6: ['Etiquetas', LineIcons.tags],
+  7: ['Reseñas', LineIcons.starAlt],
+  8: ['Configuración', CupertinoIcons.settings],
 };
 
 const Map<int, List<dynamic>> menuListAuthor = {
-  0: ['Dashboard', LineIcons.pieChart],
-  1: ['My Courses', LineIcons.book],
-  2: ['Reviews', LineIcons.starAlt],
+  0: ['Panel de Control', LineIcons.pieChart],
+  1: ['Mis Cursos', LineIcons.book],
+  2: ['Reseñas', LineIcons.starAlt],
 };
 
-const Map<String, String> courseStatus = {'draft': 'Draft', 'pending': 'Pending', 'live': 'Live', 'archive': 'Archived'};
+const Map<String, String> courseStatus = {'draft': 'Borrador', 'pending': 'Pendiente', 'live': 'Publicado', 'archive': 'Archivado'};
 
-const Map<String, String> lessonTypes = {'video': 'Video', 'article': 'Article', 'quiz': 'Quiz'};
+const Map<String, String> lessonTypes = {'video': 'Video', 'article': 'Artículo', 'quiz': 'Cuestionario'};
 
-const Map<String, String> priceStatus = {'free': 'Free', 'premium': 'Premium'};
+const Map<String, String> priceStatus = {'free': 'Gratis', 'premium': 'Premium'};
 
 const Map<String, String> sortByCourse = {
-  'all': 'All',
-  'live': 'Published',
-  'draft': 'Drafts',
-  'pending': 'Pending',
-  'archive': 'Archived',
-  'featured': 'Featured Courses',
-  'new': 'Newest First',
-  'old': 'Oldest First',
-  'free': 'Free Courses',
-  'premium': 'Premium Courses',
-  'high-rating': 'High Rating',
-  'low-rating': 'Low Rating',
-  'category': 'Category',
-  'author': 'Author',
+  'all': 'Todos',
+  'live': 'Publicados',
+  'draft': 'Borradores',
+  'pending': 'Pendientes',
+  'archive': 'Archivados',
+  'featured': 'Cursos Destacados',
+  'new': 'Más Recientes',
+  'old': 'Más Antiguos',
+  'free': 'Cursos Gratis',
+  'premium': 'Cursos Premium',
+  'high-rating': 'Alta Calificación',
+  'low-rating': 'Baja Calificación',
+  'category': 'Categoría',
+  'author': 'Autor',
 };
 
 const Map<String, String> sortByUsers = {
-  'all': 'All',
-  'new': 'Newest First',
-  'old': 'Oldest First',
-  'admin': 'Admins',
-  'author': 'Authors',
-  'disabled': "Disabled Users",
-  'subscribed': "Subscribed Users",
-  'android': 'Android Users',
-  'ios': 'iOS Users'
+  'all': 'Todos',
+  'new': 'Más Recientes',
+  'old': 'Más Antiguos',
+  'admin': 'Administradores',
+  'author': 'Autores',
+  'disabled': "Usuarios Deshabilitados",
+  'subscribed': "Usuarios Suscritos",
+  'android': 'Usuarios Android',
+  'ios': 'Usuarios iOS'
 };
 
 const Map<String, String> sortByReviews = {
-  'all': 'All',
-  'high-rating': 'High to Low Rating',
-  'low-rating': 'Low to High Rating',
-  'new': 'Newest First',
-  'old': 'Oldest First',
-  'course': 'Course'
+  'all': 'Todas',
+  'high-rating': 'Alta a Baja Calificación',
+  'low-rating': 'Baja a Alta Calificación',
+  'new': 'Más Recientes',
+  'old': 'Más Antiguas',
+  'course': 'Curso'
 };
 
 const Map<String, String> sortByPurchases = {
-  'all': 'All',
-  'new': 'Newest First',
-  'old': 'Oldest First',
-  'active': 'Active',
-  'expired': 'Expired',
-  'android': 'Android Platform',
-  'ios': 'iOS Platform',
+  'all': 'Todas',
+  'new': 'Más Recientes',
+  'old': 'Más Antiguas',
+  'active': 'Activas',
+  'expired': 'Expiradas',
+  'android': 'Plataforma Android',
+  'ios': 'Plataforma iOS',
 };
 
 const Map<String, String> userMenus = {
-  'edit': 'Edit Profile',
-  'password': 'Change Password',
-  'logout': 'Logout',
+  'edit': 'Editar Perfil',
+  'password': 'Cambiar Contraseña',
+  'logout': 'Cerrar Sesión',
+};
+
+// Roles del Sistema
+const Map<String, String> userRoles = {
+  'admin': 'Administrador',
+  'coordinator': 'Coordinador',
+  'tutor': 'Tutor',
+  'teacher': 'Profesor',
+  'author': 'Autor',
+  'student': 'Estudiante',
+};
+
+// Niveles de Estudiante
+const Map<String, String> studentLevels = {
+  'basic': 'Básico',
+  'intermediate': 'Intermedio',
+  'advanced': 'Avanzado',
+};
+
+// Estados de Pago
+const Map<String, String> paymentStatuses = {
+  'pending': 'Pendiente',
+  'paid': 'Pagado',
+  'overdue': 'Vencido',
+  'free': 'Gratuito',
+};
+
+// Tipos de Material
+const Map<String, String> materialTypes = {
+  'pdf': 'Documento PDF',
+  'video': 'Video',
+  'link': 'Enlace Externo',
+  'audio': 'Audio',
+  'image': 'Imagen',
+};
+
+// Idiomas Disponibles
+const Map<String, String> availableLanguages = {
+  'portuguese': 'Portugués',
+  'english': 'Inglés',
+  'spanish': 'Español',
+};
+
+// Filtros de Estudiantes
+const Map<String, String> sortByStudents = {
+  'all': 'Todos',
+  'new': 'Más Recientes',
+  'old': 'Más Antiguos',
+  'basic': 'Nivel Básico',
+  'intermediate': 'Nivel Intermedio',
+  'advanced': 'Nivel Avanzado',
+  'paid': 'Pagados',
+  'pending': 'Pago Pendiente',
+  'overdue': 'Pago Vencido',
 };
